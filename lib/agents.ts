@@ -5,7 +5,23 @@ import { z } from "zod"
 export const legalAnalystPrompt = `You are a legal analyst specializing in public benefits law, including SNAP, TANF, Medicaid, housing assistance, SSI/SSDI, and other safety net programs.
 Given a collection of web search results about a legal issue, write a concise analysis of the current legal landscape.
 Focus on relevant statutes, regulations, case law, agency guidance, and recent policy changes.
-Pull out key legal citations, procedural requirements, and eligibility criteria. Keep it under 2 paragraphs.`
+Pull out key legal citations, procedural requirements, and eligibility criteria. Keep it under 2 paragraphs.
+
+CITATION REQUIREMENTS:
+Use proper Bluebook (21st Edition) citation format for all legal authorities:
+- Federal Statutes: [Title] U.S.C. § [Section] ([Year])
+- Federal Regulations: [Title] C.F.R. § [Section] ([Year])
+- State Statutes: [State Abbrev.] [Code] § [Section] ([Year])
+- Cases: [Case Name], [Volume] [Reporter] [Page] ([Court] [Year])
+- Agency Guidance: [Agency], [Title], [Publication Info] ([Date])
+- Administrative Decisions: [Case Name], [Volume] [Reporter] [Page] ([Agency] [Year])
+
+Examples:
+- 7 U.S.C. § 2014 (2018) (SNAP eligibility)
+- 7 C.F.R. § 273.9 (2023) (SNAP income calculations)
+- N.Y. Soc. Serv. Law § 131-a (McKinney 2023)
+- Goldberg v. Kelly, 397 U.S. 254 (1970)
+- USDA, SNAP Quality Control Annual Report (2023)`
 
 export const AnalysisSummary = z.object({
   summary: z.string().describe("Short text summary for this aspect of the legal analysis."),
@@ -135,7 +151,10 @@ Quality scoring:
 Recommend revision if quality score is below 7 OR if any critical issues are present.
 
 When specifying location, be specific (e.g., "Executive Summary section", "Legal Analysis paragraph 2", "Practice Guidance bullet point 3") or set to null for general issues.`,
-  model: "gpt-4o",
+  model: "o4-mini",
+  modelSettings: {
+    reasoningEffort: "high", // High reasoning effort for thorough legal verification
+  },
   outputType: VerificationResult,
 })
 
@@ -151,7 +170,51 @@ Your task is to synthesize these into a comprehensive legal research memo (at le
 5. **Client Impact Considerations** - How this affects NYLAG's client base
 6. **Follow-up Research** - Additional areas to investigate
 
-Use proper legal citation format where possible and clearly distinguish between federal and New York State law.
+BLUEBOOK CITATION REQUIREMENTS (21st Edition):
+All legal authorities must be cited in proper Bluebook format. Use the following formats:
+
+FEDERAL AUTHORITIES:
+- Statutes: [Title] U.S.C. § [Section] ([Year])
+- Regulations: [Title] C.F.R. § [Section] ([Year])
+- Cases: [Case Name], [Volume] [Reporter] [Page] ([Court] [Year])
+
+NEW YORK STATE AUTHORITIES:
+- Statutes: N.Y. [Code Name] § [Section] (McKinney [Year])
+- Regulations: N.Y. Comp. Codes R. & Regs. tit. [Title], § [Section] ([Year])
+- Cases: [Case Name], [Volume] N.Y.S.[2d/3d] [Page] ([Court] [Year])
+
+ADMINISTRATIVE MATERIALS:
+- Agency Guidance: [Agency], [Title] ([Date])
+- Policy Manuals: [Agency], [Manual Title] § [Section] ([Date])
+- Administrative Decisions: [Case Name], [Volume] [Reporter] [Page] ([Agency] [Year])
+
+CITATION EXAMPLES:
+- 7 U.S.C. § 2014(a) (2018) (SNAP eligibility requirements)
+- 42 U.S.C. § 1396a(a)(10) (2018) (Medicaid mandatory coverage)
+- 7 C.F.R. § 273.9(b)(1) (2023) (SNAP income deductions)
+- 18 N.Y.C.R.R. § 352.3 (2023) (New York SNAP regulations)
+- N.Y. Soc. Serv. Law § 131-a (McKinney 2023) (public assistance)
+- Goldberg v. Kelly, 397 U.S. 254, 264 (1970) (due process in benefits termination)
+- Aliessa v. Novello, 96 N.Y.2d 418, 424 (2001) (Medicaid coverage)
+- USDA, Supplemental Nutrition Assistance Program: Guidance on Non-Citizen Eligibility (Apr. 2021)
+- N.Y. State Office of Temp. & Disability Assistance, Administrative Directive 03 ADM-07 (2003)
+
+CITATION STYLE RULES:
+- Use parallel citations for state cases when available
+- Include pinpoint citations (specific page numbers) when referencing particular holdings
+- Use "see" or "see generally" for supporting authority
+- Use "cf." for analogous cases
+- Use "but see" or "contra" for contrary authority
+- Include subsequent history for overruled or modified cases
+- Use proper abbreviations for courts and jurisdictions
+
+FORMATTING REQUIREMENTS:
+- Citations should appear in footnotes or integrated into text as appropriate
+- Use proper spacing and punctuation per Bluebook rules
+- Italicize case names and certain other authorities
+- Use small caps for certain publications (e.g., law reviews)
+
+Clearly distinguish between federal and New York State law throughout the memo.
 If needed, you can call the available analysis tools (e.g. legal_analysis, policy_impact_analysis) to get specialist write-ups to incorporate.`
 
 export const PublicBenefitsReportData = z.object({
@@ -167,7 +230,10 @@ export type PublicBenefitsReportData = z.infer<typeof PublicBenefitsReportData>
 export const writerAgent = new Agent({
   name: "PublicBenefitsWriterAgent",
   instructions: writerPrompt,
-  model: "gpt-4.5-preview-2025-02-27",
+  model: "o4-mini",
+  modelSettings: {
+    reasoningEffort: "medium", // Medium reasoning effort for balanced performance and thoroughness
+  },
   outputType: PublicBenefitsReportData,
 })
 
@@ -186,13 +252,42 @@ Your task is to create an improved version that:
 - Improves clarity, accuracy, and practical guidance
 - Maintains professional legal memo structure and tone
 
+BLUEBOOK CITATION REQUIREMENTS (21st Edition):
+Ensure all legal citations follow proper Bluebook format:
+
+FEDERAL AUTHORITIES:
+- Statutes: [Title] U.S.C. § [Section] ([Year])
+- Regulations: [Title] C.F.R. § [Section] ([Year])
+- Cases: [Case Name], [Volume] [Reporter] [Page] ([Court] [Year])
+
+NEW YORK STATE AUTHORITIES:
+- Statutes: N.Y. [Code Name] § [Section] (McKinney [Year])
+- Regulations: N.Y. Comp. Codes R. & Regs. tit. [Title], § [Section] ([Year])
+- Cases: [Case Name], [Volume] N.Y.S.[2d/3d] [Page] ([Court] [Year])
+
+ADMINISTRATIVE MATERIALS:
+- Agency Guidance: [Agency], [Title] ([Date])
+- Administrative Decisions: [Case Name], [Volume] [Reporter] [Page] ([Agency] [Year])
+
+CITATION REVIEW CHECKLIST:
+- Verify all case names are properly italicized
+- Check that statutory citations include proper year parentheticals
+- Ensure regulatory citations are current and properly formatted
+- Confirm court abbreviations follow Bluebook standards
+- Review pinpoint citations for accuracy
+- Check parallel citations for state cases
+- Verify proper use of signals (see, cf., but see, etc.)
+
 Focus on critical issues first, then important ones. For minor issues, only address them if they're easy fixes that don't require major restructuring.
 
-Use the same markdown format and structure as the original memo, but with improved content.`
+Use the same markdown format and structure as the original memo, but with improved content and proper Bluebook citations throughout.`
 
 export const revisionAgent = new Agent({
   name: "PublicBenefitsRevisionAgent",
   instructions: revisionPrompt,
-  model: "gpt-4o",
+  model: "o4-mini",
+  modelSettings: {
+    reasoningEffort: "high", // High reasoning effort for careful revision based on feedback
+  },
   outputType: PublicBenefitsReportData,
 })
