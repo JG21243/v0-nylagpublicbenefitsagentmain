@@ -288,7 +288,7 @@ Use the same markdown format and structure as the original memo, but with improv
 export const revisionAgent = new Agent({
   name: "PublicBenefitsRevisionAgent",
   instructions: revisionPrompt,
-  model: "o4-mini",
+  model: "o3",
   modelSettings: {
     reasoningEffort: "high", // High reasoning effort for careful revision based on feedback
   },
