@@ -160,10 +160,7 @@ Quality scoring:
 Recommend revision if quality score is below 7 OR if any critical issues are present.
 
 When specifying location, be specific (e.g., "Executive Summary section", "Legal Analysis paragraph 2", "Practice Guidance bullet point 3") or set to null for general issues.`,
-  model: "o4-mini",
-  modelSettings: {
-    reasoningEffort: "high", // High reasoning effort for thorough legal verification
-  },
+  model: "gpt-4.1",
   outputType: VerificationResult,
 })
 
@@ -239,10 +236,7 @@ export type PublicBenefitsReportData = z.infer<typeof PublicBenefitsReportData>
 export const writerAgent = new Agent({
   name: "PublicBenefitsWriterAgent",
   instructions: writerPrompt,
-  model: "o4-mini",
-  modelSettings: {
-    reasoningEffort: "medium", // Medium reasoning effort for balanced performance and thoroughness
-  },
+  model: "gpt-4.1",
   outputType: PublicBenefitsReportData,
 })
 
