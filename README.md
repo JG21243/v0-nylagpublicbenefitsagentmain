@@ -1,30 +1,56 @@
-# nylagpublicbenefitsagentmain
+## Agent Architecture
 
-*Automatically synced with your [v0.dev](https://v0.dev) deployments*
+The system employs 7 specialized AI agents working in coordination:
 
-[![Deployed on Vercel](https://img.shields.io/badge/Deployed%20on-Vercel-black?style=for-the-badge&logo=vercel)](https://vercel.com/joshs-projects-pro/v0-nylagpublicbenefitsagentmain-sr)
-[![Built with v0](https://img.shields.io/badge/Built%20with-v0.dev-black?style=for-the-badge)](https://v0.dev/chat/projects/EWVr6BVKGy0)
+### 1. **Planner Agent** (`o3-mini`)
+- Analyzes legal research queries and creates strategic search plans
+- Generates 6-12 targeted searches focusing on authoritative legal sources
+- Prioritizes federal and New York State law, recent court decisions, and agency guidance
 
-## Overview
+### 2. **Search Agent** (default model with web search)
+- Executes planned searches using web search tools
+- Summarizes findings from authoritative legal sources (max 300 words)
+- Prioritizes federal agencies (HUD, USDA/FNS, CMS, SSA) and NY agencies (OTDA)
 
-This repository will stay in sync with your deployed chats on [v0.dev](https://v0.dev).
-Any changes you make to your deployed app will be automatically pushed to this repository from [v0.dev](https://v0.dev).
+### 3. **Legal Analyst Agent** (default model)
+- Provides specialized legal analysis of statutes, regulations, and case law
+- Extracts key legal citations using **Bluebook (21st Edition)** format
+- Identifies procedural requirements and eligibility criteria
 
-## Deployment
+### 4. **Policy Impact Agent** (default model)
+- Analyzes practical impact on low-income clients and vulnerable populations
+- Identifies implementation challenges and advocacy opportunities
+- Considers effects on immigrants, people with disabilities, families, and elderly
 
-Your project is live at:
+### 5. **Writer Agent** (`o4-mini`, medium reasoning effort)
+- Synthesizes research into comprehensive legal memos
+- Uses proper **Bluebook (21st Edition)** citation format throughout
+- Integrates specialist analysis from Legal Analyst and Policy Impact agents
 
-**[https://vercel.com/joshs-projects-pro/v0-nylagpublicbenefitsagentmain-sr](https://vercel.com/joshs-projects-pro/v0-nylagpublicbenefitsagentmain-sr)**
+### 6. **Verifier Agent** (`o4-mini`, high reasoning effort)
+- Performs quality assurance with focus on legal accuracy and citation quality
+- Evaluates memos on 5 criteria with emphasis on Bluebook compliance
+- Provides detailed feedback for revision when quality score < 7
 
-## Build your app
+### 7. **Revision Agent** (`o4-mini`, high reasoning effort)
+- Revises memos based on verifier feedback
+- Ensures proper Bluebook citation format and legal accuracy
+- Addresses critical and important issues systematically
 
-Continue building your app on:
+## Legal Citation Standards
 
-**[https://v0.dev/chat/projects/EWVr6BVKGy0](https://v0.dev/chat/projects/EWVr6BVKGy0)**
+All legal authorities are cited using **Bluebook (21st Edition)** format:
 
-## How It Works
+**Federal Authorities:**
+- Statutes: `7 U.S.C. § 2014(a) (2018)`
+- Regulations: `7 C.F.R. § 273.9(b)(1) (2023)`
+- Cases: `Goldberg v. Kelly, 397 U.S. 254, 264 (1970)`
 
-1. Create and modify your project using [v0.dev](https://v0.dev)
-2. Deploy your chats from the v0 interface
-3. Changes are automatically pushed to this repository
-4. Vercel deploys the latest version from this repository
+**New York State Authorities:**
+- Statutes: `N.Y. Soc. Serv. Law § 131-a (McKinney 2023)`
+- Regulations: `18 N.Y.C.R.R. § 352.3 (2023)`
+- Cases: `Aliessa v. Novello, 96 N.Y.2d 418, 424 (2001)`
+
+**Administrative Materials:**
+- Agency Guidance: `USDA, SNAP Quality Control Annual Report (2023)`
+- Policy Manuals: `N.Y. State OTDA, Administrative Directive 03 ADM-07 (2003)`
