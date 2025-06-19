@@ -138,6 +138,8 @@ export const verifierAgent = new Agent({
 You have been handed a legal research report for NYLAG attorneys.
 Your job is to verify the report is legally accurate, properly cited, internally consistent, and provides actionable guidance.
 
+You have access to web search tools to independently verify legal authorities, check citation accuracy, and confirm current law during your review.
+
 Evaluate the memo on these criteria:
 - Legal accuracy and current law (25%)
 - Citation quality and completeness (20%)
@@ -159,8 +161,18 @@ Quality scoring:
 
 Recommend revision if quality score is below 7 OR if any critical issues are present.
 
+VERIFICATION WITH WEB SEARCH:
+Use web search to:
+- Verify legal citations and case holdings are accurate
+- Confirm statutory and regulatory references are current
+- Check for recent changes in law that might affect the analysis
+- Validate procedural requirements and deadlines mentioned
+- Cross-reference controversial legal statements with authoritative sources
+- Ensure Bluebook citation format compliance
+
 When specifying location, be specific (e.g., "Executive Summary section", "Legal Analysis paragraph 2", "Practice Guidance bullet point 3") or set to null for general issues.`,
   model: "gpt-4.1",
+  tools: [webSearchTool()], // Added web search tool for independent verification
   outputType: VerificationResult,
 })
 
