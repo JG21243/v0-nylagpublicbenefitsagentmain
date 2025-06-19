@@ -4,7 +4,7 @@ export function Footer() {
   return (
     <footer className="nylag-footer text-sm sm:text-base" role="contentinfo">
       <div className="nylag-footer-bar" />
-      <div className="container mx-auto px-4 sm:px-6 lg:px-8 py-6 sm:py-8 lg:py-12">
+      <div className="py-6 sm:py-8 lg:py-12 px-4 sm:px-6 lg:px-8">
         <div className="grid gap-6 sm:gap-8 lg:grid-cols-2 lg:gap-12">
           <div className="flex flex-col sm:flex-row items-start sm:items-center space-y-3 sm:space-y-0 sm:space-x-4">
             <NylagLogo className="text-lg sm:text-xl lg:text-2xl flex-shrink-0" />

@@ -1,11 +1,67 @@
 "use client"
 import { useChat } from "@ai-sdk/react"
+import type React from "react"
+import { useState, useEffect, useCallback } from "react"
 import ReactMarkdown from "react-markdown"
 import { Input } from "@/components/ui/input"
 import { IconButton } from "@/components/ui/icon-button"
+import { useChatSessions } from "@/lib/hooks/use-chat-sessions"
 
-export function Chat() {
-  const { messages, input, handleInputChange, handleSubmit, isLoading, error } = useChat({ api: "/api/chat" })
+interface ChatProps {
+  sessionId?: string | null
+  onSessionCreated?: (sessionId: string) => void
+}
+
+export function Chat({ sessionId, onSessionCreated }: ChatProps) {
+  const { messages, input, handleInputChange, handleSubmit, isLoading, error } = useChat({
+    api: "/api/chat",
+    body: { sessionId }, // Pass session ID to the API
+  })
+
+  const { createSession } = useChatSessions()
+  const [currentSessionId, setCurrentSessionId] = useState<string | null>(sessionId || null)
+
+  // Listen for query insertion from sidebar
+  useEffect(() => {
+    const handleInsertQuery = (event: CustomEvent) => {
+      const { query } = event.detail
+      handleInputChange({ target: { value: query } } as React.ChangeEvent<HTMLInputElement>)
+    }
+
+    window.addEventListener("insertQuery", handleInsertQuery as EventListener)
+    return () => window.removeEventListener("insertQuery", handleInsertQuery as EventListener)
+  }, [handleInputChange])
+
+  // Create a new session when the first message is sent
+  const handleFormSubmit = useCallback(
+    async (e: React.FormEvent) => {
+      e.preventDefault()
+
+      if (!input.trim()) return
+
+      // If no current session, create one
+      if (!currentSessionId && input.trim()) {
+        try {
+          const title = input.length > 50 ? `${input.substring(0, 50)}...` : input
+          const newSession = await createSession(title)
+          setCurrentSessionId(newSession.id)
+          onSessionCreated?.(newSession.id)
+        } catch (error) {
+          console.error("Failed to create session:", error)
+          // Continue with the chat even if session creation fails
+        }
+      }
+
+      // Submit the form normally
+      handleSubmit(e)
+    },
+    [input, currentSessionId, createSession, handleSubmit, onSessionCreated],
+  )
+
+  // Update session ID when prop changes
+  useEffect(() => {
+    setCurrentSessionId(sessionId || null)
+  }, [sessionId])
 
   return (
     <div className="w-full max-w-6xl mx-auto space-y-4 sm:space-y-6">
@@ -30,6 +86,9 @@ export function Chat() {
               <p className="text-sm sm:text-base text-gray-400">
                 Ask a question about public benefits law to get started
               </p>
+              {currentSessionId && (
+                <p className="text-xs text-gray-400 mt-2">Session: {currentSessionId.substring(0, 8)}...</p>
+              )}
             </div>
           )}
 
@@ -107,7 +166,7 @@ export function Chat() {
       </div>
 
       {/* Input Form */}
-      <form onSubmit={handleSubmit} className="flex flex-col sm:flex-row gap-3 sm:gap-4">
+      <form onSubmit={handleFormSubmit} className="flex flex-col sm:flex-row gap-3 sm:gap-4">
         <div className="flex-1">
           <Input
             value={input}
