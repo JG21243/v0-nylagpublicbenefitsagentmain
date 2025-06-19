@@ -98,7 +98,7 @@ Focus on legal citations, eligibility requirements, procedural deadlines, and pr
 export const searchAgent = new Agent({
   name: "PublicBenefitsSearchAgent",
   instructions: searchAgentPrompt,
-  model: "o4-mini",
+  model: "gpt-4.1",
   tools: [webSearchTool()],
   modelSettings: { toolChoice: "required" },
 })
