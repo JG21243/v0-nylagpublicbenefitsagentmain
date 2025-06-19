@@ -6,6 +6,7 @@ import ReactMarkdown from "react-markdown"
 import { Input } from "@/components/ui/input"
 import { IconButton } from "@/components/ui/icon-button"
 import { useChatSessions } from "@/lib/hooks/use-chat-sessions"
+import { ResearchProgress } from "@/components/research-progress"
 
 interface ChatProps {
   sessionId?: string | null
@@ -142,26 +143,7 @@ export function Chat({ sessionId, onSessionCreated }: ChatProps) {
             </div>
           ))}
 
-          {isLoading && (
-            <div className="flex justify-start">
-              <div className="bg-gray-50 rounded-2xl rounded-bl-md p-3 sm:p-4 border border-gray-100 shadow-sm">
-                <div className="flex items-center space-x-2 text-gray-500">
-                  <div className="flex space-x-1">
-                    <div className="w-2 h-2 bg-nylag-primary-blue rounded-full animate-bounce"></div>
-                    <div
-                      className="w-2 h-2 bg-nylag-primary-blue rounded-full animate-bounce"
-                      style={{ animationDelay: "0.1s" }}
-                    ></div>
-                    <div
-                      className="w-2 h-2 bg-nylag-primary-blue rounded-full animate-bounce"
-                      style={{ animationDelay: "0.2s" }}
-                    ></div>
-                  </div>
-                  <span className="text-sm sm:text-base">Processing your legal research query...</span>
-                </div>
-              </div>
-            </div>
-          )}
+          {isLoading && <ResearchProgress isVisible={isLoading} />}
         </div>
       </div>
 
