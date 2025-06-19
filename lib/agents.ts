@@ -43,7 +43,7 @@ Focus on:
 - Advocacy resources and practice advisories
 - Recent legislative or policy changes
 
-Output between 6 and 12 search terms to query for, prioritizing authoritative legal sources.`
+Output between 4 and 6 search terms to query for, prioritizing authoritative legal sources.`
 
 export const PublicBenefitsSearchItem = z.object({
   reason: z.string().describe("Your reasoning for why this search is relevant to public benefits law."),
