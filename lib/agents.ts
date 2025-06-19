@@ -30,6 +30,7 @@ export const AnalysisSummary = z.object({
 export const legalAnalystAgent = new Agent({
   name: "LegalAnalystAgent",
   instructions: legalAnalystPrompt,
+  model: "gpt-4.1",
   outputType: AnalysisSummary,
 })
 
@@ -74,6 +75,7 @@ Keep it under 2 paragraphs.`
 export const policyImpactAgent = new Agent({
   name: "PolicyImpactAnalystAgent",
   instructions: policyImpactPrompt,
+  model: "gpt-4.1",
   outputType: AnalysisSummary,
 })
 
@@ -90,6 +92,7 @@ Focus on legal citations, eligibility requirements, procedural deadlines, and pr
 export const searchAgent = new Agent({
   name: "PublicBenefitsSearchAgent",
   instructions: searchAgentPrompt,
+  model: "gpt-4.1",
   tools: [webSearchTool()],
   modelSettings: { toolChoice: "required" },
 })
