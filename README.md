@@ -56,23 +56,27 @@ The system employs 7 specialized AI agents working in coordination:
 - Evaluates memos on 5 criteria with emphasis on Bluebook compliance
 - Provides detailed feedback for revision when quality score < 7
 
-### 7. **Revision Agent** (`o4-mini`, high reasoning effort)
-- Revises memos based on verifier feedback
-- Ensures proper Bluebook citation format and legal accuracy
-- Addresses critical and important issues systematically
+### 7. **Revision Agent** (`o3`, high reasoning effort + web search)
+- **Enhanced capabilities**: Combines advanced reasoning with independent fact-checking
+- **Real-time verification**: Uses web search to fact-check legal authorities during revision
+- **Citation accuracy**: Verifies and corrects Bluebook citations with authoritative sources
+- **Current law confirmation**: Ensures all legal information is up-to-date and accurate
+- **Systematic improvement**: Addresses reviewer feedback with verified, accurate information
 
 ## 🔍 Enhanced Search Capabilities
 
 ### Multi-Agent Web Search
-- **3 agents** now have independent web search capabilities:
+- **4 agents** now have independent web search capabilities:
   - **Search Agent**: Primary search execution
   - **Legal Analyst**: Targeted legal authority searches
   - **Policy Impact**: Current policy and implementation data searches
+  - **Revision Agent**: **Real-time fact-checking and citation verification**
 
 ### Search Coordination
 - Planner creates strategic search plan to avoid duplication
 - Each agent focuses on their specialized domain
-- Comprehensive coverage of legal, policy, and practical aspects
+- **Revision agent provides independent verification** of memo content
+- Comprehensive coverage of legal, policy, practical, and accuracy aspects
 
 ## 📚 Legal Citation Standards
 
@@ -97,17 +101,23 @@ All legal authorities are cited using **Bluebook (21st Edition)** format:
 | Agent | Model | Tools | Reasoning Effort | Purpose |
 |-------|-------|-------|------------------|---------|
 | Planner | `o3-mini` | None | Default | Strategic research planning |
-| **Legal Analyst** | `gpt-4.1` | **Web Search** | Default | Legal analysis + current law search |
-| **Policy Impact** | `gpt-4.1` | **Web Search** | Default | Policy analysis + implementation data |
-| **Search** | **`o4-mini`** | Web Search | Default | Primary search execution |
-| Writer | `o4-mini` | Legal/Policy agents | Medium | Memo composition |
-| Verifier | `o4-mini` | None | High | Quality assurance |
-| Revision | `o4-mini` | None | High | Systematic improvement |
+| Legal Analyst | `gpt-4.1` | **Web Search** | Default | Legal analysis + current law search |
+| Policy Impact | `gpt-4.1` | **Web Search** | Default | Policy analysis + implementation data |
+| Search | `gpt-4.1` | **Web Search** | Default | Primary search execution |
+| Writer | `gpt-4.1` | Legal/Policy agents | Default | Memo composition |
+| Verifier | `gpt-4.1` | None | Default | Quality assurance |
+| **Revision** | **`o3`** | **Web Search** | **High** | **Systematic improvement + fact-checking** |
 
 ### Reasoning Effort Levels
 - **Medium**: Balanced performance and quality for memo writing
 - **High**: Maximum thoroughness for verification and revision
 - **Default**: Standard performance for analysis and search tasks
+
+### Enhanced Revision Process
+- **Advanced reasoning**: `o3` model with high reasoning effort for complex revisions
+- **Independent verification**: Web search capabilities for real-time fact-checking
+- **Citation accuracy**: Verifies Bluebook compliance with authoritative sources
+- **Current law confirmation**: Ensures all legal authorities are up-to-date
 
 ## 🎯 Output Format
 

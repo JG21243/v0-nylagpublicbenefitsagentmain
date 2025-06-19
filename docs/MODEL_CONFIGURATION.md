@@ -2,22 +2,22 @@
 
 ## Current Model Assignments
 
-### Reasoning Models (o3-mini, o4-mini)
+### Reasoning Models (o3, o3-mini)
 Used for tasks requiring deep analysis and careful consideration:
 
-| Agent | Model | Reasoning Effort | Rationale |
-|-------|-------|------------------|-----------|
-| Planner | `o3-mini` | Default | Optimized for strategic planning and search strategy |
-| Writer | `o4-mini` | `medium` | Balances quality with reasonable response time for memo composition |
-| Verifier | `o4-mini` | `high` | Maximum accuracy needed for quality assessment and citation review |
-| Revision | `o4-mini` | `high` | Careful consideration required for systematic improvement |
+| Agent | Model | Reasoning Effort | Tools | Rationale |
+|-------|-------|------------------|-------|-----------|
+| Planner | `o3-mini` | Default | None | Optimized for strategic planning and search strategy |
+| **Revision** | **`o3`** | **`high`** | **Web Search** | **Maximum reasoning + fact-checking for systematic improvement** |
 
 ### Standard Models
-| Agent | Model | Purpose |
-|-------|-------|---------|
-| Search | Default (gpt-4o) | Web search execution and summarization |
-| Legal Analyst | Default (gpt-4o) | Legal analysis with Bluebook citations |
-| Policy Impact | Default (gpt-4o) | Client impact analysis |
+| Agent | Model | Tools | Purpose |
+|-------|-------|-------|---------|
+| Search | `gpt-4.1` | Web Search | Primary search execution and summarization |
+| Legal Analyst | `gpt-4.1` | Web Search | Legal analysis with Bluebook citations |
+| Policy Impact | `gpt-4.1` | Web Search | Client impact analysis |
+| Writer | `gpt-4.1` | Legal/Policy agents | Memo composition and synthesis |
+| Verifier | `gpt-4.1` | None | Quality assurance and citation verification |
 
 ## Reasoning Effort Configuration
 
@@ -70,3 +70,44 @@ All citation-capable agents are trained on:
 - Parallel search execution reduces total workflow time
 - Medium reasoning effort prevents excessive delays in memo generation
 - High reasoning effort used only where accuracy is critical
+
+## Enhanced Search Capabilities
+
+### Multi-Agent Web Search Coordination
+**4 out of 7 agents** now have independent web search capabilities:
+
+| Agent | Search Focus | Coordination Strategy |
+|-------|--------------|----------------------|
+| **Search** | Primary research execution | Follows Planner's strategic search plan |
+| **Legal Analyst** | Current legal authorities | Targeted searches for specific legal analysis |
+| **Policy Impact** | Implementation data & real-world impacts | Policy-focused searches for client impact |
+| **Revision** | **Fact-checking & verification** | **Independent verification of memo content** |
+
+### Search Specialization
+- **Search Agent**: Broad legal research per planned strategy
+- **Legal Analyst**: Deep-dive legal authority searches
+- **Policy Impact**: Current policy implementation data
+- **Revision Agent**: **Real-time fact-checking and citation verification**
+
+## Revision Agent Enhanced Capabilities
+
+### Advanced Reasoning + Fact-Checking
+The Revision agent combines the most powerful model (`o3`) with high reasoning effort and independent web search:
+
+#### Core Capabilities:
+- **Systematic memo improvement** based on reviewer feedback
+- **Real-time fact-checking** of legal authorities and citations
+- **Independent verification** of controversial or complex legal points
+- **Current law confirmation** for accuracy and currency
+
+#### Fact-Checking Features:
+- **Citation verification**: Confirms Bluebook format and accuracy
+- **Legal authority validation**: Verifies case holdings and statutory text
+- **Currency checks**: Ensures regulations and guidance are current
+- **Cross-referencing**: Validates information against multiple sources
+
+#### Quality Assurance Integration:
+- **Error correction**: Fixes factual inaccuracies with verified sources
+- **Gap filling**: Adds missing information identified during review
+- **Authority strengthening**: Enhances weak sections with additional sources
+- **Consistency checking**: Ensures internal consistency across memo sections
