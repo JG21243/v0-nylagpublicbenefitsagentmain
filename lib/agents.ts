@@ -58,6 +58,7 @@ Keep it under 2 paragraphs.`
 export const policyImpactAgent = new Agent({
   name: "PolicyImpactAnalystAgent",
   instructions: policyImpactPrompt,
+  tools: [webSearchTool()],
   outputType: AnalysisSummary,
 })
 
@@ -135,7 +136,7 @@ Quality scoring:
 Recommend revision if quality score is below 7 OR if any critical issues are present.
 
 When specifying location, be specific (e.g., "Executive Summary section", "Legal Analysis paragraph 2", "Practice Guidance bullet point 3") or set to null for general issues.`,
-  model: "gpt-4o",
+  model: "gpt-4.1",
   outputType: VerificationResult,
 })
 
@@ -167,7 +168,7 @@ export type PublicBenefitsReportData = z.infer<typeof PublicBenefitsReportData>
 export const writerAgent = new Agent({
   name: "PublicBenefitsWriterAgent",
   instructions: writerPrompt,
-  model: "gpt-4.5-preview-2025-02-27",
+  model: "gpt-4.1",
   outputType: PublicBenefitsReportData,
 })
 
@@ -193,6 +194,6 @@ Use the same markdown format and structure as the original memo, but with improv
 export const revisionAgent = new Agent({
   name: "PublicBenefitsRevisionAgent",
   instructions: revisionPrompt,
-  model: "gpt-4o",
+  model: "gpt-4.1",
   outputType: PublicBenefitsReportData,
 })
