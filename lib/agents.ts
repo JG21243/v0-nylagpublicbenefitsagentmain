@@ -7,6 +7,8 @@ Given a collection of web search results about a legal issue, write a concise an
 Focus on relevant statutes, regulations, case law, agency guidance, and recent policy changes.
 Pull out key legal citations, procedural requirements, and eligibility criteria. Keep it under 2 paragraphs.
 
+You have access to web search tools to find the most current legal information from authoritative sources.
+
 CITATION REQUIREMENTS:
 Use proper Bluebook (21st Edition) citation format for all legal authorities:
 - Federal Statutes: [Title] U.S.C. § [Section] ([Year])
@@ -31,6 +33,7 @@ export const legalAnalystAgent = new Agent({
   name: "LegalAnalystAgent",
   instructions: legalAnalystPrompt,
   model: "gpt-4.1",
+  tools: [webSearchTool()],
   outputType: AnalysisSummary,
 })
 
@@ -70,12 +73,15 @@ export const plannerAgent = new Agent({
 export const policyImpactPrompt = `You are a policy analyst focused on the practical impact of public benefits laws and policies on low-income clients.
 Given legal research, analyze potential client impact, implementation challenges, advocacy opportunities, and practice considerations.
 Consider how changes might affect vulnerable populations including immigrants, people with disabilities, families with children, and elderly individuals.
-Keep it under 2 paragraphs.`
+Keep it under 2 paragraphs.
+
+You have access to web search tools to find the most current policy information and real-world implementation data.`
 
 export const policyImpactAgent = new Agent({
   name: "PolicyImpactAnalystAgent",
   instructions: policyImpactPrompt,
   model: "gpt-4.1",
+  tools: [webSearchTool()],
   outputType: AnalysisSummary,
 })
 
@@ -92,7 +98,7 @@ Focus on legal citations, eligibility requirements, procedural deadlines, and pr
 export const searchAgent = new Agent({
   name: "PublicBenefitsSearchAgent",
   instructions: searchAgentPrompt,
-  model: "gpt-4.1",
+  model: "o4-mini",
   tools: [webSearchTool()],
   modelSettings: { toolChoice: "required" },
 })
