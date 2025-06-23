@@ -143,8 +143,10 @@ Each research session produces:
 git clone <repository-url>
 cd nylag-public-benefits-agent
 
-# Install dependencies
+# Install dependencies (includes Next.js, @openai/agents, zod, etc.)
 npm install
+# Alternatively, run the helper script
+bash scripts/setup.sh
 
 # Set up environment variables
 cp .env.example .env
@@ -241,6 +243,13 @@ N.Y. Soc. Serv. Law § 95 (McKinney 2023) provides...
 2. Add to workflow in `lib/manager.ts`
 3. Update documentation
 4. Test thoroughly
+
+### Development Checks
+Run ESLint and the TypeScript compiler to verify code quality:
+```bash
+npm run lint
+npx tsc --noEmit
+```
 
 ## 🔍 Monitoring and Debugging
 
