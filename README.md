@@ -160,8 +160,10 @@ Each research session produces:
 git clone <repository-url>
 cd nylag-public-benefits-agent
 
-# Install dependencies
+# Install dependencies (includes Next.js, @openai/agents, zod, etc.)
 npm install
+# Alternatively, run the helper script
+bash scripts/setup.sh
 
 # Set up environment variables
 cp .env.example .env
@@ -234,6 +236,17 @@ N.Y. Soc. Serv. Law § 95 (McKinney 2023) provides...
 - **Clarity**: Organization and readability (15%)
 - **Completeness**: Comprehensive analysis (20%)
 
+### Meta Verification Process
+After the draft memo is produced, a **meta verification** stage runs. Five sub‑agents correspond to the quality metrics above:
+1. **Accuracy Reviewer** – checks legal correctness.
+2. **Citation Auditor** – confirms Bluebook formatting.
+3. **Guidance Analyst** – verifies practical recommendations.
+4. **Clarity Reviewer** – evaluates organization and readability.
+5. **Completeness Checker** – ensures no significant topic is missing.
+
+Each sub‑agent returns a 0–10 score. These scores are aggregated using the metric weights (25%, 20%, 20%, 15%, 20) to produce an overall quality score.
+If this aggregated score falls below **7**, or any sub‑agent finds a critical issue, the Revision agent is triggered to update the memo. The verification cycle repeats until the score is acceptable or the maximum of three iterations is reached.
+
 ## 🛠️ Development
 
 ### Project Structure
@@ -258,6 +271,13 @@ N.Y. Soc. Serv. Law § 95 (McKinney 2023) provides...
 2. Add to workflow in `lib/manager.ts`
 3. Update documentation
 4. Test thoroughly
+
+### Development Checks
+Run ESLint and the TypeScript compiler to verify code quality:
+```bash
+npm run lint
+npx tsc --noEmit
+```
 
 ## 🔍 Monitoring and Debugging
 
