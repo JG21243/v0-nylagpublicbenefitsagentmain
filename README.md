@@ -216,6 +216,17 @@ N.Y. Soc. Serv. Law § 95 (McKinney 2023) provides...
 - **Practical Guidance**: Actionable advice for attorneys (20%)
 - **Clarity**: Organization and readability (15%)
 - **Completeness**: Comprehensive analysis (20%)
+### Meta Verification Process
+After the Verifier agent completes its review, a meta verification pipeline engages **five specialized sub-agents**. Each sub-agent rates the memo on one of the quality metrics above—legal accuracy, citation compliance, practical guidance, clarity, and completeness.
+
+- **Legal Accuracy Checker**
+- **Citation Reviewer**
+- **Guidance Evaluator**
+- **Clarity Reviewer**
+- **Completeness Auditor**
+
+Each sub-agent returns a **0–10 score**. The system aggregates these scores by averaging them to produce the final quality score. If the aggregated score is **below 7**, the report automatically returns to the Revision agent for improvement. Scores of **7 or higher** finalize the memo without further revision.
+
 
 ## 🛠️ Development
 
