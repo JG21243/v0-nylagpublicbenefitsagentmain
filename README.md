@@ -56,6 +56,23 @@ The system employs 7 specialized AI agents working in coordination:
 - Evaluates memos on 5 criteria with emphasis on Bluebook compliance
 - Provides detailed feedback for revision when quality score < 7
 
+#### Meta Verification Process
+The Verifier agent is implemented as a meta-agent that runs **five** focused
+sub-agents in parallel:
+
+1. **LegalAccuracyAgent** – verifies current law and flags inaccurate statements using web search.
+2. **CitationQualityAgent** – checks Bluebook formatting and confirms citation details via web search.
+3. **PracticalGuidanceAgent** – ensures the memo offers clear, actionable advice for NYLAG attorneys.
+4. **ClarityOrganizationAgent** – reviews readability and logical structure.
+5. **CompletenessAgent** – notes gaps in analysis or missing legal topics.
+
+Each sub-agent returns specific issues and recommended fixes. The meta-agent
+aggregates these results and computes a quality score starting at **10**, minus
+two points for each critical issue and one point for each important issue. If the
+score drops below **7** or any critical errors are found, the manager triggers the
+Revision agent to improve the memo. Scores of 9+ are considered *excellent*, 7–8
+*good*, 5–6 *needs_revision*, and below 5 *poor*.
+
 ### 7. **Revision Agent** (`o3`, high reasoning effort + web search)
 - **Enhanced capabilities**: Combines advanced reasoning with independent fact-checking
 - **Real-time verification**: Uses web search to fact-check legal authorities during revision
@@ -143,8 +160,10 @@ Each research session produces:
 git clone <repository-url>
 cd nylag-public-benefits-agent
 
-# Install dependencies
+# Install dependencies (includes Next.js, @openai/agents, zod, etc.)
 npm install
+# Alternatively, run the helper script
+bash scripts/setup.sh
 
 # Set up environment variables
 cp .env.example .env
@@ -228,6 +247,17 @@ After the Verifier agent completes its review, a meta verification pipeline enga
 Each sub-agent returns a **0–10 score**. The system aggregates these scores by averaging them to produce the final quality score. If the aggregated score is **below 7**, the report automatically returns to the Revision agent for improvement. Scores of **7 or higher** finalize the memo without further revision.
 
 
+### Meta Verification Process
+After the draft memo is produced, a **meta verification** stage runs. Five sub‑agents correspond to the quality metrics above:
+1. **Accuracy Reviewer** – checks legal correctness.
+2. **Citation Auditor** – confirms Bluebook formatting.
+3. **Guidance Analyst** – verifies practical recommendations.
+4. **Clarity Reviewer** – evaluates organization and readability.
+5. **Completeness Checker** – ensures no significant topic is missing.
+
+Each sub‑agent returns a 0–10 score. These scores are aggregated using the metric weights (25%, 20%, 20%, 15%, 20) to produce an overall quality score.
+If this aggregated score falls below **7**, or any sub‑agent finds a critical issue, the Revision agent is triggered to update the memo. The verification cycle repeats until the score is acceptable or the maximum of three iterations is reached.
+
 ## 🛠️ Development
 
 ### Project Structure
@@ -252,6 +282,13 @@ Each sub-agent returns a **0–10 score**. The system aggregates these scores by
 2. Add to workflow in `lib/manager.ts`
 3. Update documentation
 4. Test thoroughly
+
+### Development Checks
+Run ESLint and the TypeScript compiler to verify code quality:
+```bash
+npm run lint
+npx tsc --noEmit
+```
 
 ## 🔍 Monitoring and Debugging
 

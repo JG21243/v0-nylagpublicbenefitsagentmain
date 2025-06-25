@@ -3,7 +3,8 @@ import { legalAnalystAgent } from "./agents"
 import { plannerAgent, type PublicBenefitsSearchItem, type PublicBenefitsSearchPlan } from "./agents"
 import { policyImpactAgent } from "./agents"
 import { searchAgent } from "./agents"
-import { verifierAgent, type VerificationResult } from "./agents"
+import { type VerificationResult } from "./agents"
+import { verifierAgent } from "@/src/verification"
 import { writerAgent, type PublicBenefitsReportData } from "./agents"
 import { revisionAgent } from "./agents"
 
@@ -282,11 +283,11 @@ Please create an improved version that addresses these issues while maintaining 
   async verifyReport(report: PublicBenefitsReportData): Promise<VerificationResult> {
     console.log(`[verifying] Verifying legal accuracy and quality...`)
     try {
-      const result = await run(verifierAgent, report.markdown_report)
+      const result = await verifierAgent(report.markdown_report)
       console.log(
-        `[verifying] Quality assessment complete: ${result.finalOutput!.overallQuality} (${result.finalOutput!.qualityScore}/10)`,
+        `[verifying] Quality assessment complete: ${result.overallQuality} (${result.qualityScore}/10)`,
       )
-      return result.finalOutput!
+      return result
     } catch (error) {
       console.error("[verifying] Error verifying report:", error)
       // Return a default verification result if verification fails
