@@ -67,16 +67,25 @@ export function useChatSessions(options: UseChatSessionsOptions = {}) {
           body: JSON.stringify({ title }),
         })
 
-        const result = await response.json()
+        // --- safe-json parsing -----------------------------------------
+        const raw = await response.text()
+        let result: any
+        try {
+          result = JSON.parse(raw)
+        } catch {
+          result = { success: false, error: raw || "Server returned non-JSON response" }
+        }
+        // ---------------------------------------------------------------
 
-        if (result.success) {
-          await fetchSessions() // Refresh the list
+        if (response.ok && result.success) {
+          await fetchSessions() // Refresh list
           return result.data
         } else {
-          throw new Error(result.error || "Failed to create chat session")
+          throw new Error(result.error || `Failed with status ${response.status}`)
         }
       } catch (err) {
-        setError(err instanceof Error ? err.message : "Failed to create session")
+        const message = err instanceof Error ? err.message : "Failed to create session"
+        setError(message)
         throw err
       }
     },
