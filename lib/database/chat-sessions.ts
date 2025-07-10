@@ -5,18 +5,19 @@ export class ChatSessionsDB {
   // --- create a chat session ---
   static async create(userId: string | null, title: string): Promise<ApiResponse<ChatSession>> {
     try {
+      const id = crypto.randomUUID()
       const rows =
         userId && userId.trim() !== "" && userId !== "null" && userId !== "undefined"
           ? await sql`
-            INSERT INTO chat_sessions (user_id, title)
-            VALUES (${userId}::uuid, ${title})
-            RETURNING *
-          `
+              INSERT INTO chat_sessions (id, user_id, title)
+              VALUES (${id}::uuid, ${userId}::uuid, ${title})
+              RETURNING *
+            `
           : await sql`
-            INSERT INTO chat_sessions (title)
-            VALUES (${title})
-            RETURNING *
-          `
+              INSERT INTO chat_sessions (id, title)
+              VALUES (${id}::uuid, ${title})
+              RETURNING *
+            `
 
       return { success: true, data: rows[0] as ChatSession }
     } catch (error) {
