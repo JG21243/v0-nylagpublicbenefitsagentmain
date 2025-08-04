@@ -117,7 +117,7 @@ export function Chat({ sessionId, onSessionCreated }: ChatProps) {
     async (e: React.FormEvent) => {
       e.preventDefault()
 
-      if (!input.trim()) return
+      if (!input?.trim()) return
 
       // Reset metrics
       setResearchMetrics({
@@ -129,7 +129,7 @@ export function Chat({ sessionId, onSessionCreated }: ChatProps) {
       })
 
       // If no current session, create one
-      if (!currentSessionId && input.trim()) {
+      if (!currentSessionId && input?.trim()) {
         try {
           const title = input.length > 50 ? `${input.substring(0, 50)}...` : input
           const newSession = await createSession(title)
@@ -314,7 +314,7 @@ export function Chat({ sessionId, onSessionCreated }: ChatProps) {
           </div>
           <IconButton
             type="submit"
-            disabled={isLoading || !input.trim()}
+            disabled={isLoading || !input?.trim()}
             icon={isLoading ? "loading" : "send"}
             tooltip={isLoading ? "Processing your legal research query..." : "Send your query"}
             aria-label="Send query"
