@@ -264,96 +264,212 @@ body {
 /* ------------------------------------------------------------------------ */
 
 @layer components {
-  /* Section Headers */
-  .section-header {
-    position: relative;
-    background-color: #000000;
-    color: #ffffff;
-    text-transform: uppercase;
-    letter-spacing: 0.05em;
-    font-weight: 700;
-    font-family: ui-sans-serif, system-ui, -apple-system, sans-serif;
-    padding: 1rem 1.5rem;
-    border-radius: 0.5rem;
-    margin-bottom: 1rem;
+  /* Visual enhancements and micro-interactions */
+@layer components {
+  /* Enhanced animations */
+  .fade-in {
+    animation: fadeIn 0.5s ease-in-out;
   }
+  
+  .slide-up {
+    animation: slideUp 0.3s ease-out;
+  }
+  
+  .pulse-subtle {
+    animation: pulseSubtle 2s infinite;
+  }
+  
+  /* Improved button hover effects */
+  .button-hover-lift {
+    transition: all 0.2s ease-in-out;
+  }
+  
+  .button-hover-lift:hover {
+    transform: translateY(-1px);
+    box-shadow: 0 4px 12px rgba(0, 169, 206, 0.2);
+  }
+  
+  /* Chat message animations */
+  .message-enter {
+    animation: messageEnter 0.3s ease-out;
+  }
+  
+  /* Enhanced gradient backgrounds */
+  .gradient-mesh {
+    background: 
+      radial-gradient(circle at 20% 80%, rgba(0, 169, 206, 0.1) 0%, transparent 50%),
+      radial-gradient(circle at 80% 20%, rgba(139, 196, 0, 0.1) 0%, transparent 50%),
+      radial-gradient(circle at 40% 40%, rgba(255, 196, 20, 0.05) 0%, transparent 50%);
+  }
+}
 
-  .section-header::before {
-    content: "";
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 80px;
-    height: 6px;
-    background-color: var(--nylag-primary-blue);
-    border-radius: 0.5rem 0.5rem 0 0;
-  }
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
 
-  /* Content Boxes */
-  .content-box {
-    background-color: var(--nylag-light-gray);
-    border-left: 4px solid var(--nylag-primary-blue);
-    padding: 1.5rem;
-    border-radius: 0.75rem;
-    box-shadow: 0 1px 3px 0 rgb(0 0 0 / 0.1), 0 1px 2px -1px rgb(0 0 0 / 0.1);
+@keyframes slideUp {
+  from { 
+    opacity: 0; 
+    transform: translateY(10px); 
   }
+  to { 
+    opacity: 1; 
+    transform: translateY(0); 
+  }
+}
 
-  .highlight-box {
-    background-color: #ffffff;
-    border: 2px solid var(--nylag-primary-blue);
-    box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
-    padding: 1.5rem;
-    border-radius: 0.75rem;
-  }
+@keyframes pulseSubtle {
+  0%, 100% { opacity: 0.8; }
+  50% { opacity: 1; }
+}
 
-  .warning-box {
-    background-color: var(--nylag-yellow);
-    border-left: 4px solid var(--nylag-orange);
-    padding: 1.5rem;
-    border-radius: 0.75rem;
-    box-shadow: 0 1px 3px 0 rgb(0 0 0 / 0.1), 0 1px 2px -1px rgb(0 0 0 / 0.1);
+@keyframes messageEnter {
+  from {
+    opacity: 0;
+    transform: translateX(-10px);
   }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
 
-  /* Tables */
-  .nylag-table {
-    border-radius: 0.5rem;
-    overflow: hidden;
-    box-shadow: 0 1px 3px 0 rgb(0 0 0 / 0.1), 0 1px 2px -1px rgb(0 0 0 / 0.1);
+/* Mobile-first responsive improvements */
+@layer components {
+  /* Touch-friendly buttons */
+  .touch-target {
+    min-height: 44px;
+    min-width: 44px;
   }
+  
+  .mobile-friendly-text {
+    font-size: 16px; /* Prevents zoom on iOS */
+  }
+  
+  /* Better mobile chat layout */
+  .mobile-chat {
+    @media (max-width: 640px) {
+      height: calc(100vh - 280px);
+      min-height: 300px;
+    }
+  }
+  
+  /* Improved mobile form spacing */
+  .mobile-form {
+    @media (max-width: 640px) {
+      gap: 1rem;
+    }
+  }
+}
 
-  .nylag-table th {
-    background-color: #000000;
-    color: #ffffff;
-    padding: 0.75rem 1rem;
-    font-weight: 700;
-    text-align: left;
-  }
+/* Enhanced focus styles */
+.focus-ring:focus {
+  outline: none;
+  ring: 2px;
+  ring-color: var(--nylag-primary-blue);
+  ring-offset: 2px;
+}
 
-  .nylag-table td {
-    border: 1px solid var(--nylag-primary-blue);
-    padding: 0.75rem 1rem;
-  }
+/* Improved form styling */
+.form-field {
+  transition: all 0.2s ease-in-out;
+}
 
-  .nylag-table tbody tr:nth-child(even) {
-    background-color: #fafafa;
-  }
+.form-field:focus-within {
+  transform: translateY(-1px);
+}
 
-  .nylag-table tbody tr:hover {
-    background-color: #e6f7fb;
-    transition: background-color 0.2s ease;
-  }
+/* Section Headers */
+.section-header {
+  position: relative;
+  background-color: #000000;
+  color: #ffffff;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  font-weight: 700;
+  font-family: ui-sans-serif, system-ui, -apple-system, sans-serif;
+  padding: 1rem 1.5rem;
+  border-radius: 0.5rem;
+  margin-bottom: 1rem;
+}
 
-  /* Footer */
-  .nylag-footer {
-    background-color: #000000;
-    color: #ffffff;
-    margin-top: 3rem;
-  }
+.section-header::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 80px;
+  height: 6px;
+  background-color: var(--nylag-primary-blue);
+  border-radius: 0.5rem 0.5rem 0 0;
+}
 
-  .nylag-footer-bar {
-    height: 6px;
-    background-color: var(--nylag-primary-blue);
-  }
+/* Content Boxes */
+.content-box {
+  background-color: var(--nylag-light-gray);
+  border-left: 4px solid var(--nylag-primary-blue);
+  padding: 1.5rem;
+  border-radius: 0.75rem;
+  box-shadow: 0 1px 3px 0 rgb(0 0 0 / 0.1), 0 1px 2px -1px rgb(0 0 0 / 0.1);
+}
+
+.highlight-box {
+  background-color: #ffffff;
+  border: 2px solid var(--nylag-primary-blue);
+  box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
+  padding: 1.5rem;
+  border-radius: 0.75rem;
+}
+
+.warning-box {
+  background-color: var(--nylag-yellow);
+  border-left: 4px solid var(--nylag-orange);
+  padding: 1.5rem;
+  border-radius: 0.75rem;
+  box-shadow: 0 1px 3px 0 rgb(0 0 0 / 0.1), 0 1px 2px -1px rgb(0 0 0 / 0.1);
+}
+
+/* Tables */
+.nylag-table {
+  border-radius: 0.5rem;
+  overflow: hidden;
+  box-shadow: 0 1px 3px 0 rgb(0 0 0 / 0.1), 0 1px 2px -1px rgb(0 0 0 / 0.1);
+}
+
+.nylag-table th {
+  background-color: #000000;
+  color: #ffffff;
+  padding: 0.75rem 1rem;
+  font-weight: 700;
+  text-align: left;
+}
+
+.nylag-table td {
+  border: 1px solid var(--nylag-primary-blue);
+  padding: 0.75rem 1rem;
+}
+
+.nylag-table tbody tr:nth-child(even) {
+  background-color: #fafafa;
+}
+
+.nylag-table tbody tr:hover {
+  background-color: #e6f7fb;
+  transition: background-color 0.2s ease;
+}
+
+/* Footer */
+.nylag-footer {
+  background-color: #000000;
+  color: #ffffff;
+  margin-top: 3rem;
+}
+
+.nylag-footer-bar {
+  height: 6px;
+  background-color: var(--nylag-primary-blue);
+}
 }
 
 /* Responsive improvements */
