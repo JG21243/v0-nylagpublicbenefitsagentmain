@@ -167,7 +167,7 @@ export type PublicBenefitsReportData = z.infer<typeof PublicBenefitsReportData>
 export const writerAgent = new Agent({
   name: "PublicBenefitsWriterAgent",
   instructions: writerPrompt,
-  model: "gpt-4.5-preview-2025-02-27",
+  model: "gpt-4o",
   outputType: PublicBenefitsReportData,
 })
 
