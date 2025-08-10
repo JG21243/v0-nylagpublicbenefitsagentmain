@@ -1,6 +1,6 @@
 // Using Request type to avoid dependency on next/server typings
 import { withTrace } from "@openai/agents"
-import { createDataStreamResponse } from "ai"
+import { streamText } from "ai"
 import { formatDataStreamPart } from "@ai-sdk/ui-utils"
 import { PublicBenefitsResearchManager } from "@/lib/manager"
 

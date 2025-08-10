@@ -5,7 +5,10 @@ import { Input } from "@/components/ui/input"
 import { IconButton } from "@/components/ui/icon-button"
 
 export function Chat() {
-  const { messages, input, handleInputChange, handleSubmit, isLoading, error } = useChat({ api: "/api/chat" })
+  const { messages, input, handleInputChange, handleSubmit, isLoading, error } = useChat({ 
+    api: "/api/chat",
+    initialInput: ""
+  })
 
   return (
     <div className="w-full max-w-6xl mx-auto space-y-4 sm:space-y-6">
@@ -110,7 +113,7 @@ export function Chat() {
       <form onSubmit={handleSubmit} className="flex flex-col sm:flex-row gap-3 sm:gap-4">
         <div className="flex-1">
           <Input
-            value={input}
+            value={input || ""}
             onChange={handleInputChange}
             placeholder="Enter your research query..."
             aria-label="Research query"
@@ -120,7 +123,7 @@ export function Chat() {
         </div>
         <IconButton
           type="submit"
-          disabled={isLoading || !input.trim()}
+          disabled={isLoading || !input?.trim()}
           icon={isLoading ? "loading" : "send"}
           tooltip={isLoading ? "Processing your legal research query..." : "Send your query"}
           aria-label="Send query"
