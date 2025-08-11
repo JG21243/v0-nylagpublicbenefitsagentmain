@@ -167,7 +167,7 @@ export type PublicBenefitsReportData = z.infer<typeof PublicBenefitsReportData>
 export const writerAgent = new Agent({
   name: "PublicBenefitsWriterAgent",
   instructions: writerPrompt,
-  model: "gpt-4o",
+  model: "gpt-5",
   outputType: PublicBenefitsReportData,
 })
 
@@ -193,6 +193,6 @@ Use the same markdown format and structure as the original memo, but with improv
 export const revisionAgent = new Agent({
   name: "PublicBenefitsRevisionAgent",
   instructions: revisionPrompt,
-  model: "gpt-4o",
+  model: "gpt-5",
   outputType: PublicBenefitsReportData,
 })
